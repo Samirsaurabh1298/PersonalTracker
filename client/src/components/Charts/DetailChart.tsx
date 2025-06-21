@@ -1,14 +1,14 @@
 import { LineChart as RechartsLineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { ChartData, WeatherData, Parameter } from '../../types/weather';
+import { WeatherData, ChartData } from '../../types/weather';
+import { PARAMETERS } from '../../utils/weatherApi';
 
 interface DetailChartProps {
   weatherData: WeatherData | null;
   selectedParameters: string[];
-  parameters: Parameter[];
 }
 
-export default function DetailChart({ weatherData, selectedParameters, parameters }: DetailChartProps) {
-  const prepareDetailChartData = (): ChartData[] => {
+export default function DetailChart({ weatherData, selectedParameters }: DetailChartProps) {
+  const prepareChartData = (): ChartData[] => {
     if (!weatherData?.time) return [];
     
     return weatherData.time.map((datetime, index) => {
@@ -27,18 +27,10 @@ export default function DetailChart({ weatherData, selectedParameters, parameter
     });
   };
 
-  const chartData = prepareDetailChartData();
-
-  if (!chartData.length) {
-    return (
-      <div style={{ height: 400, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <p>No data available</p>
-      </div>
-    );
-  }
+  const chartData = prepareChartData();
 
   return (
-    <div>
+    <div className="chart-container large">
       <ResponsiveContainer width="100%" height={400}>
         <RechartsLineChart data={chartData}>
           <CartesianGrid strokeDasharray="3 3" />
@@ -46,22 +38,23 @@ export default function DetailChart({ weatherData, selectedParameters, parameter
           <YAxis />
           <Tooltip />
           <Legend />
-          {selectedParameters.map(paramKey => {
-            const param = parameters.find(p => p.key === paramKey);
-            return param ? (
-              <Line 
-                key={paramKey}
-                type="monotone" 
-                dataKey={paramKey} 
-                stroke={param.color} 
-                name={param.label}
+          {selectedParameters.map(param => {
+            const parameter = PARAMETERS.find(p => p.key === param);
+            return parameter ? (
+              <Line
+                key={param}
+                type="monotone"
+                dataKey={param}
+                stroke={parameter.color}
+                strokeWidth={2}
+                name={parameter.label}
               />
             ) : null;
           })}
         </RechartsLineChart>
       </ResponsiveContainer>
       <div className="chart-frequency">
-        <p>Hourly frequency</p>
+        Hourly frequency
       </div>
     </div>
   );

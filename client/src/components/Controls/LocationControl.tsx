@@ -49,7 +49,11 @@ export default function LocationControl({ selectedLocations, onLocationChange }:
 
   return (
     <div className="control-item" onClick={() => setShowLocationDropdown(!showLocationDropdown)}>
-      <span>{selectedLocations.length === LOCATIONS.length ? 'All Countries Selected' : `${selectedLocations.length} Countries Selected`}</span>
+      <span>
+        {selectedLocations.length === LOCATIONS.length 
+          ? 'All Countries Selected' 
+          : `${selectedLocations.length} Countries Selected`}
+      </span>
       <ChevronDown className={`chevron ${showLocationDropdown ? 'open' : ''}`} />
       {renderLocationDropdown()}
     </div>

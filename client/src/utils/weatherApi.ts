@@ -1,4 +1,4 @@
-import { Location, WeatherData } from '../types/weather';
+import { WeatherData, Location } from '../types/weather';
 
 export const LOCATIONS: Location[] = [
   { name: 'Australia', lat: -25.2744, lon: 133.7751 },
@@ -21,13 +21,13 @@ export const PARAMETERS = [
 ];
 
 export const fetchWeatherData = async (
-  selectedLocations: string[],
-  startDate: string,
-  endDate: string,
+  selectedLocations: string[], 
+  startDate: string, 
+  endDate: string, 
   isHourly = false
 ): Promise<WeatherData | null> => {
   try {
-    // For now, use the first selected location
+    // Use the first selected location
     const location = LOCATIONS.find(loc => selectedLocations.includes(loc.name)) || LOCATIONS[0];
     
     const timeframe = isHourly ? 'hourly' : 'daily';
@@ -40,10 +40,7 @@ export const fetchWeatherData = async (
     const response = await fetch(url);
     const data = await response.json();
     
-    if (data[timeframe]) {
-      return data[timeframe];
-    }
-    return null;
+    return data[timeframe] || null;
   } catch (error) {
     console.error('Error fetching weather data:', error);
     return null;

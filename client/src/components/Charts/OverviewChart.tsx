@@ -1,5 +1,5 @@
 import { LineChart as RechartsLineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { ChartData, WeatherData } from '../../types/weather';
+import { WeatherData, ChartData } from '../../types/weather';
 
 interface OverviewChartProps {
   weatherData: WeatherData | null;
@@ -7,7 +7,7 @@ interface OverviewChartProps {
 }
 
 export default function OverviewChart({ weatherData, onChartClick }: OverviewChartProps) {
-  const prepareOverviewChartData = (): ChartData[] => {
+  const prepareChartData = (): ChartData[] => {
     if (!weatherData?.time) return [];
     
     return weatherData.time.map((date, index) => ({
@@ -20,17 +20,7 @@ export default function OverviewChart({ weatherData, onChartClick }: OverviewCha
     }));
   };
 
-  const chartData = prepareOverviewChartData();
-
-  if (!chartData.length) {
-    return (
-      <div className="chart-container-main" onClick={onChartClick}>
-        <div style={{ height: 300, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <p>No data available</p>
-        </div>
-      </div>
-    );
-  }
+  const chartData = prepareChartData();
 
   return (
     <div className="chart-container-main" onClick={onChartClick}>
@@ -41,13 +31,31 @@ export default function OverviewChart({ weatherData, onChartClick }: OverviewCha
           <YAxis />
           <Tooltip />
           <Legend />
-          <Line type="monotone" dataKey="avgTemp" stroke="#ff7300" name="Avg Temperature" />
-          <Line type="monotone" dataKey="maxTemp" stroke="#ff4444" name="Max Temperature" />
-          <Line type="monotone" dataKey="minTemp" stroke="#4444ff" name="Min Temperature" />
+          <Line 
+            type="monotone" 
+            dataKey="avgTemp" 
+            stroke="#ff7300" 
+            strokeWidth={2}
+            name="Avg Temperature (°C)"
+          />
+          <Line 
+            type="monotone" 
+            dataKey="maxTemp" 
+            stroke="#ff4444" 
+            strokeWidth={1}
+            name="Max Temperature (°C)"
+          />
+          <Line 
+            type="monotone" 
+            dataKey="minTemp" 
+            stroke="#0088fe" 
+            strokeWidth={1}
+            name="Min Temperature (°C)"
+          />
         </RechartsLineChart>
       </ResponsiveContainer>
       <div className="chart-frequency">
-        <p>Daily frequency</p>
+        Daily frequency
       </div>
     </div>
   );
