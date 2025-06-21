@@ -22,5 +22,5 @@
     }
   },
   "include": ["src", "server/index.ts"],
-  "exclude": ["server/storage.ts", "server/routes.ts", "server/vite.ts", "shared/**/*"]
+  "exclude": ["node_modules", "dist"]
 }
