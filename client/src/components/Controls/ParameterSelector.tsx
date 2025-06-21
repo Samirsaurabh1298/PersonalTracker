@@ -32,9 +32,13 @@ export default function ParameterSelector({
 
   const getDisplayText = () => {
     if (multiple) {
-      return selectedParameters.length > 1 
-        ? `${selectedParameters.length} parameters selected`
-        : PARAMETERS.find(p => p.key === selectedParameters[0])?.label || 'Select parameters';
+      if (selectedParameters.length === 0) {
+        return 'Select up to 2 parameters';
+      } else if (selectedParameters.length === 1) {
+        return PARAMETERS.find(p => p.key === selectedParameters[0])?.label || 'Select parameters';
+      } else {
+        return `${selectedParameters.length} parameters selected`;
+      }
     }
     return PARAMETERS.find(p => p.key === selectedParameters[0])?.label || 'Select parameter';
   };
@@ -47,10 +51,20 @@ export default function ParameterSelector({
         {PARAMETERS.map(param => (
           <div 
             key={param.key} 
-            className={`dropdown-option ${selectedParameters.includes(param.key) ? 'selected' : ''}`}
-            onClick={() => handleParameterToggle(param.key)}
+            className={`dropdown-option ${selectedParameters.includes(param.key) ? 'selected' : ''} ${
+              multiple && selectedParameters.length >= 2 && !selectedParameters.includes(param.key) ? 'disabled' : ''
+            }`}
+            onClick={() => {
+              if (multiple && selectedParameters.length >= 2 && !selectedParameters.includes(param.key)) {
+                return; // Don't allow more than 2 selections
+              }
+              handleParameterToggle(param.key);
+            }}
           >
             <span className="option-text">{param.label}</span>
+            {multiple && selectedParameters.length >= 2 && !selectedParameters.includes(param.key) && (
+              <span className="max-selected-hint">(Max 2)</span>
+            )}
           </div>
         ))}
       </div>
