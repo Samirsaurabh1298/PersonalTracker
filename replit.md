@@ -18,10 +18,12 @@ A comprehensive weather dashboard using the Open-Meteo Archive API to display hi
 - Modular CSS styling
 
 ## Recent Changes
-- Initial setup with component structure
-- Created weather API utilities and type definitions
-- Built reusable control components
-- Implemented chart components
+- Converted to frontend-only React application (removed unnecessary backend)
+- Implemented react-date-range for professional date picker functionality
+- Created 3 separate chart components for overview page (Temperature, Precipitation, Wind Speed)
+- Built detailed insights page with multi-parameter selection (max 2 parameters)
+- Added responsive grid layout and navigation between pages
+- Successfully configured Vite development server for frontend-only deployment
 
 ## User Preferences
 - Clean, professional UI design

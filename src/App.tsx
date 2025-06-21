@@ -1,19 +1,17 @@
 import { useState, useEffect } from 'react';
-import { useLocation } from 'wouter';
-import Sidebar from '../components/Sidebar';
-import Header from '../components/Header';
-import OverviewPage from '../components/Pages/OverviewPage';
-import DetailsPage from '../components/Pages/DetailsPage';
-import LoadingState from '../components/LoadingState';
-import { fetchWeatherData } from '../utils/weatherApi';
-import { WeatherData, PageType } from '../types/weather';
-import '../styles/weather.css';
+import Sidebar from './components/Sidebar';
+import Header from './components/Header';
+import OverviewPage from './components/Pages/OverviewPage';
+import DetailsPage from './components/Pages/DetailsPage';
+import LoadingState from './components/LoadingState';
+import { fetchWeatherData } from './utils/weatherApi';
+import { WeatherData, PageType } from './types/weather';
+import './styles/weather.css';
+import 'react-date-range/dist/styles.css';
+import 'react-date-range/dist/theme/default.css';
 
-export default function WeatherDashboard() {
-  const [location, setLocation] = useLocation();
-  const [currentPage, setCurrentPage] = useState<PageType>(
-    location === '/details' ? 'details' : 'overview'
-  );
+export default function App() {
+  const [currentPage, setCurrentPage] = useState<PageType>('overview');
   const [selectedLocations, setSelectedLocations] = useState<string[]>(['Australia']);
   const [startDate, setStartDate] = useState(() => {
     const date = new Date();
@@ -58,12 +56,10 @@ export default function WeatherDashboard() {
 
   const handleNavigateToDetails = () => {
     setCurrentPage('details');
-    setLocation('/details');
   };
 
   const handleNavigateBack = () => {
     setCurrentPage('overview');
-    setLocation('/');
   };
 
   if (loading) {

@@ -112,7 +112,7 @@
   transform: rotate(180deg);
 }
 
-.custom-datepicker {
+.date-range-picker-wrapper {
   position: absolute;
   top: 100%;
   left: 0;
@@ -121,51 +121,14 @@
   border-radius: 8px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   z-index: 100;
-  padding: 20px;
-  width: 400px;
-  min-width: 300px;
+  overflow: hidden;
 }
 
-.datepicker-header {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  margin-bottom: 20px;
-}
-
-.date-inputs {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.date-input-group {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  flex: 1;
-  min-width: 120px;
-}
-
-.date-input-group label {
-  font-size: 12px;
-  font-weight: 500;
-  color: hsl(220, 9%, 45%);
-}
-
-.date-input-group input[type="date"] {
-  padding: 8px 12px;
-  border: 1px solid hsl(220, 13%, 82%);
-  border-radius: 6px;
-  font-size: 14px;
-  color: hsl(220, 9%, 22%);
-  background: white;
-}
-
-.date-input-group input[type="date"]:focus {
-  outline: none;
-  border-color: hsl(217, 91%, 60%);
-  box-shadow: 0 0 0 2px hsl(217, 91%, 90%);
+.date-picker-footer {
+  padding: 16px;
+  text-align: right;
+  border-top: 1px solid hsl(220, 13%, 90%);
+  background: hsl(220, 13%, 98%);
 }
 
 .month-navigation {
@@ -558,17 +521,13 @@
     min-width: auto;
   }
   
-  .custom-datepicker {
+  .date-range-picker-wrapper {
     width: 90vw;
     max-width: 350px;
+    left: -50vw;
   }
   
-  .calendar-grid {
-    flex-direction: column;
-    gap: 16px;
-  }
-  
-  .date-inputs {
+  .date-range-picker-wrapper .rdrDateRangePickerWrapper {
     flex-direction: column;
   }
   
