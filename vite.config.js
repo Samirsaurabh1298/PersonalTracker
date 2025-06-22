@@ -16,9 +16,11 @@ export default defineConfig({
   server: {
     host: '0.0.0.0',
     port: 5000,
-    allowedHosts: 'all',
+    allowedHosts: true,
+    disableHostCheck: true,
     hmr: {
-      host: '0.0.0.0'
+      host: '0.0.0.0',
+      clientPort: 5000
     }
   },
   plugins: [react()],
