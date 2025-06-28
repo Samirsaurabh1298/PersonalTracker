@@ -3,25 +3,26 @@ import react from "@vitejs/plugin-react";
 import path from "path";
 
 export default defineConfig({
+  plugins: [react()],
+
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "src"),
+      "@assets": path.resolve(__dirname, "attached_assets"),
+    },
+  },
+
+  server: {
+    host: "localhost",         // safer for local dev
+    port: 5000,
+    strictPort: true,          // fail if port is busy
+    watch: {
+      ignored: ["**/node_modules/**", "**/dist/**"], // avoid watching junk
+    },
+  },
+
   build: {
     outDir: "dist",
     emptyOutDir: true,
   },
-  resolve: {
-    alias: {
-      "@": path.resolve(process.cwd(), "./src"),
-      "@assets": path.resolve(process.cwd(), "./attached_assets"),
-    },
-  },
-  server: {
-    host: '0.0.0.0',
-    port: 5000,
-    allowedHosts: true,
-    disableHostCheck: true,
-    hmr: {
-      host: '0.0.0.0',
-      clientPort: 5000
-    }
-  },
-  plugins: [react()],
 });
