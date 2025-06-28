@@ -60,11 +60,6 @@ jspm_packages/
 tmp/
 temp/
 
-# Replit specific files
-.replit
-replit.nix
-.config/
-
 # Backup files
 *.bak
 *.backup
