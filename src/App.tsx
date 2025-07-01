@@ -10,6 +10,7 @@ import './styles/weather.css';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 
+
 export default function App() {
   const [currentPage, setCurrentPage] = useState<PageType>('overview');
   const [selectedLocations, setSelectedLocations] = useState<string[]>(['Australia']);

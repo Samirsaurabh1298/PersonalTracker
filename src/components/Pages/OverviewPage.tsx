@@ -29,7 +29,11 @@ export default function OverviewPage({
   onNavigateToDetails
 }: OverviewPageProps) {
   return (
-    <div className="page-content">
+    <>
+    <div className="page-content ml-[100px] mt-[48px] p-0">
+      <div className='text-[24px] font-[500] leading-[24px] pb-6 pt-7'>
+        <span className="text-24 font-bold mb-4">Overview</span>
+      </div>
       <div className="controls-bar">
         <DateRangeControl
           startDate={startDate}
@@ -60,5 +64,6 @@ export default function OverviewPage({
         />
       </div>
     </div>
+    </>
   );
 }

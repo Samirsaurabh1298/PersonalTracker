@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { DateRangePicker } from 'react-date-range';
-import { ChevronDown, Calendar } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 import { formatDateRange } from '../../utils/weatherApi';
 
 interface DateRangeControlProps {
@@ -27,8 +27,7 @@ export default function DateRangeControl({ startDate, endDate, onDateChange }: D
 
   return (
     <div className="control-item" onClick={() => setShowDatePicker(!showDatePicker)}>
-      <Calendar size={16} />
-      <span>{formatDateRange(startDate, endDate)}</span>
+      <span className='date-range'>{formatDateRange(startDate, endDate)}</span>
       <ChevronDown className={`chevron ${showDatePicker ? 'open' : ''}`} />
       {showDatePicker && (
         <div className="date-range-picker-wrapper" onClick={(e) => e.stopPropagation()}>

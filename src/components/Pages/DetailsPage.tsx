@@ -33,9 +33,8 @@ export default function DetailsPage({
       <div className="page-header">
         <button className="back-button" onClick={onNavigateBack}>
           <ArrowLeft className="icon" />
-          Back
         </button>
-        <h1 className="page-title">Detailed Weather Analysis</h1>
+        <h1 className="page-title">Drilldown</h1>
       </div>
 
       <div className="controls-bar">
@@ -54,9 +53,9 @@ export default function DetailsPage({
       <div className="chart-section">
         <div className="chart-header">
           <div className="chart-icon">
-            <BarChart3 size={16} />
+            <img src="/temp.svg" alt="Temprature" />
           </div>
-          <h2>Hourly Weather Data</h2>
+          <h2>Temprature</h2>
           <ParameterSelector
             selectedParameters={selectedParameters}
             onParameterChange={onParameterChange}

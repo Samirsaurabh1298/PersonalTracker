@@ -1,4 +1,4 @@
-import { TrendingUp } from 'lucide-react';
+// import { TrendingUp } from 'lucide-react';
 
 interface HeaderProps {
   title: string;
@@ -6,11 +6,11 @@ interface HeaderProps {
 
 export default function Header({ title }: HeaderProps) {
   return (
-    <div className="app-header">
+    <div className="app-header pr-6 w-screen fixed z-[2]">
       <div className="header-icon">
-        <TrendingUp size={12} />
+        D
       </div>
-      <h1>{title}</h1>
+      {/* <h1>{title}</h1> */}
     </div>
   );
 }

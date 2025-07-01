@@ -55,9 +55,9 @@
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: Roboto, sans-serif;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
-  background: hsl(var(--background));
+  background-color: #FAFAFA;
   color: hsl(var(--foreground));
 }

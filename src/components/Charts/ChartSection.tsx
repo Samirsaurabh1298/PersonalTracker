@@ -1,6 +1,6 @@
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import ParameterSelector from '../Controls/ParameterSelector';
-import { Parameter } from '../../types/weather';
+import type { Parameter } from '../../types/weather';
 
 interface ChartSectionProps {
   title: string;
@@ -9,7 +9,7 @@ interface ChartSectionProps {
   selectedParameters?: string[];
   onParameterChange?: (parameters: string[]) => void;
   multiple?: boolean;
-  children: ReactNode;
+  children?: ReactNode;
 }
 
 export default function ChartSection({ 

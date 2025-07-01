@@ -49,7 +49,7 @@ export default function LocationControl({ selectedLocations, onLocationChange }:
 
   return (
     <div className="control-item" onClick={() => setShowLocationDropdown(!showLocationDropdown)}>
-      <span>
+      <span className='date-range'>
         {selectedLocations.length === LOCATIONS.length 
           ? 'All Countries Selected' 
           : `${selectedLocations.length} Countries Selected`}

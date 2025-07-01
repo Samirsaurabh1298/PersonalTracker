@@ -12,13 +12,14 @@ export const LOCATIONS: Location[] = [
 ];
 
 export const PARAMETERS = [
-  { key: 'temperature_2m', label: 'Temperature', color: '#ff7300' },
-  { key: 'relative_humidity_2m', label: 'Relative Humidity', color: '#82ca9d' },
-  { key: 'apparent_temperature', label: 'Apparent Temperature', color: '#8884d8' },
-  { key: 'precipitation', label: 'Precipitation', color: '#00bcd4' },
-  { key: 'surface_pressure', label: 'Sea Level Pressure', color: '#ff8042' },
-  { key: 'wind_speed_10m', label: 'Wind Speed', color: '#0088fe' }
+  { key: 'temperature_2m', label: 'Temperature (°C)', color: '#EEC920' },
+  { key: 'relative_humidity_2m', label: 'Relative Humidity (%)', color: '#82ca9d' },
+  { key: 'apparent_temperature', label: 'Apparent Temperature (°C)', color: '#8884d8' },
+  { key: 'precipitation', label: 'Precipitation (mm)', color: '#00bcd4' },
+  { key: 'surface_pressure', label: 'Sea Level Pressure (hPa)', color: '#ff8042' },
+  { key: 'wind_speed_10m', label: 'Wind Speed (km/h)', color: '#8BADA9' }
 ];
+
 
 export const fetchWeatherData = async (
   selectedLocations: string[], 
