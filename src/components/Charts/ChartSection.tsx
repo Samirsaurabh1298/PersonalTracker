@@ -30,7 +30,7 @@ export default function ChartSection({
         <h2>{title}</h2>
         {parameters.length > 0 && onParameterChange && (
           <ParameterSelector
-            parameters={parameters}
+            title={title}
             selectedParameters={selectedParameters}
             onParameterChange={onParameterChange}
             multiple={multiple}
