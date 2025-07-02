@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { ChevronDown } from 'lucide-react';
-import { PARAMETERS } from '../../utils/weatherApi';
+import { useState } from "react";
+import { ChevronDown } from "lucide-react";
+import { PARAMETERS } from "../../utils/weatherApi";
 
 interface ParameterSelectorProps {
   selectedParameters: string[];
@@ -9,18 +9,18 @@ interface ParameterSelectorProps {
   title?: string;
 }
 
-export default function ParameterSelector({ 
-  selectedParameters, 
-  onParameterChange, 
+export default function ParameterSelector({
+  selectedParameters,
+  onParameterChange,
   multiple = false,
-  title 
+  title,
 }: ParameterSelectorProps) {
   const [showParameterDropdown, setShowParameterDropdown] = useState(false);
 
   const handleParameterToggle = (paramKey: string) => {
     if (multiple) {
       if (selectedParameters.includes(paramKey)) {
-        onParameterChange(selectedParameters.filter(p => p !== paramKey));
+        onParameterChange(selectedParameters.filter((p) => p !== paramKey));
       } else if (selectedParameters.length < 2) {
         onParameterChange([...selectedParameters, paramKey]);
       }
@@ -33,14 +33,20 @@ export default function ParameterSelector({
   const getDisplayText = () => {
     if (multiple) {
       if (selectedParameters.length === 0) {
-        return 'Select up to 2 parameters';
+        return "Select up to 2 parameters";
       } else if (selectedParameters.length === 1) {
-        return PARAMETERS.find(p => p.key === selectedParameters[0])?.label || 'Select parameters';
+        return (
+          PARAMETERS.find((p) => p.key === selectedParameters[0])?.label ||
+          "Select parameters"
+        );
       } else {
         return `${selectedParameters.length} parameters selected`;
       }
     }
-    return PARAMETERS.find(p => p.key === selectedParameters[0])?.label || 'Select parameter';
+    return (
+      PARAMETERS.find((p) => p.key === selectedParameters[0])?.label ||
+      "Select parameter"
+    );
   };
 
   const renderParameterDropdown = () => {
@@ -48,23 +54,35 @@ export default function ParameterSelector({
 
     return (
       <div className="custom-dropdown parameter-dropdown">
-        {PARAMETERS.map(param => (
-          <div 
-            key={param.key} 
-            className={`dropdown-option ${selectedParameters.includes(param.key) ? 'selected' : ''} ${
-              multiple && selectedParameters.length >= 2 && !selectedParameters.includes(param.key) ? 'disabled' : ''
+        {PARAMETERS.map((param) => (
+          <div
+            key={param.key}
+            className={`dropdown-option ${
+              selectedParameters.includes(param.key) ? "selected" : ""
+            } ${
+              multiple &&
+              selectedParameters.length >= 2 &&
+              !selectedParameters.includes(param.key)
+                ? "disabled"
+                : ""
             }`}
             onClick={() => {
-              if (multiple && selectedParameters.length >= 2 && !selectedParameters.includes(param.key)) {
+              if (
+                multiple &&
+                selectedParameters.length >= 2 &&
+                !selectedParameters.includes(param.key)
+              ) {
                 return; // Don't allow more than 2 selections
               }
               handleParameterToggle(param.key);
             }}
           >
             <span className="option-text">{param.label}</span>
-            {multiple && selectedParameters.length >= 2 && !selectedParameters.includes(param.key) && (
-              <span className="max-selected-hint">(Max 2)</span>
-            )}
+            {multiple &&
+              selectedParameters.length >= 2 &&
+              !selectedParameters.includes(param.key) && (
+                <span className="max-selected-hint">(Max 2)</span>
+              )}
           </div>
         ))}
       </div>
@@ -72,9 +90,16 @@ export default function ParameterSelector({
   };
 
   return (
-    <div className="parameter-selector-overview" onClick={() => setShowParameterDropdown(!showParameterDropdown)}>
+    <div
+      className="parameter-selector-overview"
+      onClick={() => setShowParameterDropdown(!showParameterDropdown)}
+    >
       <span>{title || getDisplayText()}</span>
-      <ChevronDown className={`chevron ${showParameterDropdown ? 'open' : ''}`} />
+      <ChevronDown
+        className={`w-4 h-4 ml-2 transition-transform duration-300 ${
+          showParameterDropdown ? "rotate-180 text-[#00A7C4]" : "text-gray-500"
+        }`}
+      />
       {renderParameterDropdown()}
     </div>
   );

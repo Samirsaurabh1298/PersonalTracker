@@ -1,25 +1,28 @@
-import { useState } from 'react';
-import { ChevronDown } from 'lucide-react';
-import { LOCATIONS } from '../../utils/weatherApi';
+import { useState } from "react";
+import { ChevronDown } from "lucide-react";
+import { LOCATIONS } from "../../utils/weatherApi";
 
 interface LocationControlProps {
   selectedLocations: string[];
   onLocationChange: (locations: string[]) => void;
 }
 
-export default function LocationControl({ selectedLocations, onLocationChange }: LocationControlProps) {
+export default function LocationControl({
+  selectedLocations,
+  onLocationChange,
+}: LocationControlProps) {
   const [showLocationDropdown, setShowLocationDropdown] = useState(false);
 
   const handleLocationToggle = (locationName: string) => {
-    if (locationName === 'Select all') {
+    if (locationName === "Select all") {
       if (selectedLocations.length === LOCATIONS.length) {
         onLocationChange([]);
       } else {
-        onLocationChange(LOCATIONS.map(loc => loc.name));
+        onLocationChange(LOCATIONS.map((loc) => loc.name));
       }
     } else {
-      const newLocations = selectedLocations.includes(locationName) 
-        ? selectedLocations.filter(name => name !== locationName)
+      const newLocations = selectedLocations.includes(locationName)
+        ? selectedLocations.filter((name) => name !== locationName)
         : [...selectedLocations, locationName];
       onLocationChange(newLocations);
     }
@@ -30,31 +33,47 @@ export default function LocationControl({ selectedLocations, onLocationChange }:
 
     return (
       <div className="custom-dropdown location-dropdown">
-        {LOCATIONS.map(location => (
-          <div 
-            key={location.name} 
+        {LOCATIONS.map((location) => (
+          <div
+            key={location.name}
             className="dropdown-option"
             onClick={() => handleLocationToggle(location.name)}
           >
             <span className="option-text">{location.name}</span>
-            <div className={`radio-button ${selectedLocations.includes(location.name) ? 'selected' : ''}`}></div>
+            <div
+              className={`radio-button ${
+                selectedLocations.includes(location.name) ? "selected" : ""
+              }`}
+            ></div>
           </div>
         ))}
         <div className="dropdown-footer">
-          <button className="done-button" onClick={() => setShowLocationDropdown(false)}>Done</button>
+          <button
+            className="done-button"
+            onClick={() => setShowLocationDropdown(false)}
+          >
+            Done
+          </button>
         </div>
       </div>
     );
   };
 
   return (
-    <div className="control-item" onClick={() => setShowLocationDropdown(!showLocationDropdown)}>
-      <span className='date-range'>
-        {selectedLocations.length === LOCATIONS.length 
-          ? 'All Countries Selected' 
+    <div
+      className="control-item"
+      onClick={() => setShowLocationDropdown(!showLocationDropdown)}
+    >
+      <span className="date-range">
+        {selectedLocations.length === LOCATIONS.length
+          ? "All Countries Selected"
           : `${selectedLocations.length} Countries Selected`}
       </span>
-      <ChevronDown className={`chevron ${showLocationDropdown ? 'open' : ''}`} />
+      <ChevronDown
+        className={`w-4 h-4 ml-2 transition-transform duration-300 ${
+          showLocationDropdown ? "rotate-180 text-[#00A7C4]" : "text-gray-500"
+        }`}
+      />
       {renderLocationDropdown()}
     </div>
   );
