@@ -4,11 +4,14 @@ import type { Parameter } from '../../types/weather';
 
 interface ChartSectionProps {
   title: string;
-  icon: ReactNode;
+  icon: React.ReactNode;
   parameters?: Parameter[];
   selectedParameters?: string[];
   onParameterChange?: (parameters: string[]) => void;
   multiple?: boolean;
+  isOpen?: boolean;
+  onToggle?: () => void;
+  closeDropdown?: () => void;
   children?: ReactNode;
 }
 
@@ -19,6 +22,9 @@ export default function ChartSection({
   selectedParameters = [], 
   onParameterChange,
   multiple = false,
+  isOpen,
+  onToggle,
+  closeDropdown,
   children 
 }: ChartSectionProps) {
   return (
@@ -34,6 +40,9 @@ export default function ChartSection({
             selectedParameters={selectedParameters}
             onParameterChange={onParameterChange}
             multiple={multiple}
+            isOpen={isOpen!}
+            onToggle={onToggle!}
+            closeDropdown={closeDropdown!}
           />
         )}
       </div>

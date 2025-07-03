@@ -1,47 +1,45 @@
-import { useState } from "react";
-import { DateRangePicker } from "react-date-range";
-import { ChevronDown } from "lucide-react";
-import { formatDateRange } from "../../utils/weatherApi";
+import { DateRangePicker } from 'react-date-range';
+import { ChevronDown } from 'lucide-react';
+import { formatDateRange } from '../../utils/weatherApi';
 
 interface DateRangeControlProps {
   startDate: string;
   endDate: string;
   onDateChange: (startDate: string, endDate: string) => void;
+  isOpen: boolean;
+  onToggle: () => void;
+  closeDropdown: () => void;
 }
 
 export default function DateRangeControl({
   startDate,
   endDate,
   onDateChange,
+  isOpen,
+  onToggle,
+  closeDropdown
 }: DateRangeControlProps) {
-  const [showDatePicker, setShowDatePicker] = useState(false);
-
   const handleDateRangeChange = (ranges: any) => {
     const { selection } = ranges;
-    const start = selection.startDate.toISOString().split("T")[0];
-    const end = selection.endDate.toISOString().split("T")[0];
+    const start = selection.startDate.toISOString().split('T')[0];
+    const end = selection.endDate.toISOString().split('T')[0];
     onDateChange(start, end);
   };
 
   const selectionRange = {
     startDate: new Date(startDate),
     endDate: new Date(endDate),
-    key: "selection",
+    key: 'selection',
   };
 
   return (
-    <div
-      className="control-item"
-      onClick={() => setShowDatePicker(!showDatePicker)}
-    >
+    <div className="control-item" onClick={onToggle}>
       <span className="date-range">{formatDateRange(startDate, endDate)}</span>
       <ChevronDown
-        className={`w-4 h-4 ml-2 transition-transform duration-300 ${
-          showDatePicker ? "rotate-180 text-[#00A7C4]" : "text-gray-500"
-        }`}
+        className={`chevron transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
+        style={{ color: isOpen ? '#00A7C4' : '#888' }}
       />
-
-      {showDatePicker && (
+      {isOpen && (
         <div
           className="date-range-picker-wrapper"
           onClick={(e) => e.stopPropagation()}
@@ -54,12 +52,15 @@ export default function DateRangeControl({
             months={2}
             direction="horizontal"
             maxDate={new Date()}
-            rangeColors={["#3b82f6"]}
+            rangeColors={['#3b82f6']}
           />
           <div className="date-picker-footer">
             <button
               className="done-button"
-              onClick={() => setShowDatePicker(false)}
+              onClick={(e) => {
+                e.stopPropagation();
+                closeDropdown();
+              }}
             >
               Done
             </button>

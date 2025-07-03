@@ -1,106 +1,84 @@
-import { useState } from "react";
-import { ChevronDown } from "lucide-react";
-import { PARAMETERS } from "../../utils/weatherApi";
+import { ChevronDown } from 'lucide-react';
+import { PARAMETERS } from '../../utils/weatherApi';
 
-interface ParameterSelectorProps {
-  selectedParameters: string[];
-  onParameterChange: (parameters: string[]) => void;
-  multiple?: boolean;
+interface ParameterControlProps {
   title?: string;
+  selectedParameters: string[];
+  onParameterChange: (params: string[]) => void;
+  isOpen: boolean;
+  onToggle: () => void;
+  closeDropdown: () => void;
+  multiple?: boolean;
 }
 
-export default function ParameterSelector({
+export default function ParameterControl({
   selectedParameters,
   onParameterChange,
-  multiple = false,
-  title,
-}: ParameterSelectorProps) {
-  const [showParameterDropdown, setShowParameterDropdown] = useState(false);
+  isOpen,
+  onToggle,
+  closeDropdown,
+}: ParameterControlProps) {
+  const maxSelection = 2;
 
-  const handleParameterToggle = (paramKey: string) => {
-    if (multiple) {
-      if (selectedParameters.includes(paramKey)) {
-        onParameterChange(selectedParameters.filter((p) => p !== paramKey));
-      } else if (selectedParameters.length < 2) {
-        onParameterChange([...selectedParameters, paramKey]);
-      }
+  const handleToggle = (key: string) => {
+    const alreadySelected = selectedParameters.includes(key);
+
+    if (alreadySelected) {
+      onParameterChange(selectedParameters.filter((p) => p !== key));
     } else {
-      onParameterChange([paramKey]);
-      setShowParameterDropdown(false);
+      if (selectedParameters.length >= maxSelection) return; // Block adding more
+      onParameterChange([...selectedParameters, key]);
     }
-  };
-
-  const getDisplayText = () => {
-    if (multiple) {
-      if (selectedParameters.length === 0) {
-        return "Select up to 2 parameters";
-      } else if (selectedParameters.length === 1) {
-        return (
-          PARAMETERS.find((p) => p.key === selectedParameters[0])?.label ||
-          "Select parameters"
-        );
-      } else {
-        return `${selectedParameters.length} parameters selected`;
-      }
-    }
-    return (
-      PARAMETERS.find((p) => p.key === selectedParameters[0])?.label ||
-      "Select parameter"
-    );
-  };
-
-  const renderParameterDropdown = () => {
-    if (!showParameterDropdown) return null;
-
-    return (
-      <div className="custom-dropdown parameter-dropdown">
-        {PARAMETERS.map((param) => (
-          <div
-            key={param.key}
-            className={`dropdown-option ${
-              selectedParameters.includes(param.key) ? "selected" : ""
-            } ${
-              multiple &&
-              selectedParameters.length >= 2 &&
-              !selectedParameters.includes(param.key)
-                ? "disabled"
-                : ""
-            }`}
-            onClick={() => {
-              if (
-                multiple &&
-                selectedParameters.length >= 2 &&
-                !selectedParameters.includes(param.key)
-              ) {
-                return; // Don't allow more than 2 selections
-              }
-              handleParameterToggle(param.key);
-            }}
-          >
-            <span className="option-text">{param.label}</span>
-            {multiple &&
-              selectedParameters.length >= 2 &&
-              !selectedParameters.includes(param.key) && (
-                <span className="max-selected-hint">(Max 2)</span>
-              )}
-          </div>
-        ))}
-      </div>
-    );
   };
 
   return (
-    <div
-      className="parameter-selector-overview"
-      onClick={() => setShowParameterDropdown(!showParameterDropdown)}
-    >
-      <span>{title || getDisplayText()}</span>
+    <div className="control-item" onClick={onToggle}>
+      <span className="date-range">
+        {selectedParameters.length === 0
+          ? 'Select Parameters'
+          : `${selectedParameters.length} Selected`}
+      </span>
       <ChevronDown
-        className={`w-4 h-4 ml-2 transition-transform duration-300 ${
-          showParameterDropdown ? "rotate-180 text-[#00A7C4]" : "text-gray-500"
-        }`}
+        className={`chevron ${isOpen ? 'rotate-180' : ''}`}
+        style={{ color: isOpen ? '#00A7C4' : '#888' }}
       />
-      {renderParameterDropdown()}
+      {isOpen && (
+        <div
+          className="custom-dropdown parameter-dropdown"
+          onClick={(e) => e.stopPropagation()}
+        >
+          {PARAMETERS.map((param) => {
+            const isSelected = selectedParameters.includes(param.key);
+            const disableNew =
+              !isSelected && selectedParameters.length >= maxSelection;
+
+            return (
+              <div
+                key={param.key}
+                className={`dropdown-option ${disableNew ? 'disabled' : ''}`}
+                onClick={() => {
+                  if (!disableNew) handleToggle(param.key);
+                }}
+              >
+                <span className="option-text">{param.label}</span>
+                <div className={`radio-button ${isSelected ? 'selected' : ''}`}></div>
+              </div>
+            );
+          })}
+
+          <div className="dropdown-footer">
+            <button
+              className="done-button"
+              onClick={(e) => {
+                e.stopPropagation();
+                closeDropdown();
+              }}
+            >
+              Done
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -1,11 +1,13 @@
-import { ArrowLeft, BarChart3 } from 'lucide-react';
-import DateRangeControl from '../Controls/DateRangeControl';
-import LocationControl from '../Controls/LocationControl';
-import ParameterSelector from '../Controls/ParameterSelector';
-import DetailChart from '../Charts/DetailChart';
-import { WeatherData } from '../../types/weather';
+import { useState } from "react";
+import { ArrowLeft } from "lucide-react";
+import DateRangeControl from "../Controls/DateRangeControl";
+import LocationControl from "../Controls/LocationControl";
+import ParameterSelector from "../Controls/ParameterSelector";
+import DetailChart from "../Charts/DetailChart";
+import { WeatherData } from "../../types/weather";
 
 interface DetailsPageProps {
+  chartType: "temperature" | "precipitation" | "wind";
   weatherData: WeatherData | null;
   selectedLocations: string[];
   selectedParameters: string[];
@@ -18,6 +20,7 @@ interface DetailsPageProps {
 }
 
 export default function DetailsPage({
+  chartType,
   weatherData,
   selectedLocations,
   selectedParameters,
@@ -26,8 +29,32 @@ export default function DetailsPage({
   onDateChange,
   onLocationChange,
   onParameterChange,
-  onNavigateBack
+  onNavigateBack,
 }: DetailsPageProps) {
+  const [openDropdown, setOpenDropdown] = useState<null | "date" | "location" | "parameter">(null);
+
+  const handleToggle = (type: "date" | "location" | "parameter") => {
+    setOpenDropdown((prev) => (prev === type ? null : type));
+  };
+
+  // Dynamic chart metadata
+  const chartMeta = {
+    temperature: {
+      title: "Temperature",
+      icon: "/temp.svg",
+    },
+    precipitation: {
+      title: "Precipitation",
+      icon: "/cloud.svg",
+    },
+    wind: {
+      title: "Wind Speed",
+      icon: "/wind.svg",
+    },
+  };
+
+  const { title: chartTitle, icon: chartIcon } = chartMeta[chartType];
+
   return (
     <div className="page-content">
       <div className="page-header">
@@ -42,27 +69,36 @@ export default function DetailsPage({
           startDate={startDate}
           endDate={endDate}
           onDateChange={onDateChange}
+          isOpen={openDropdown === "date"}
+          onToggle={() => handleToggle("date")}
+          closeDropdown={() => setOpenDropdown(null)}
         />
-        
+
         <LocationControl
           selectedLocations={selectedLocations}
           onLocationChange={onLocationChange}
+          isOpen={openDropdown === "location"}
+          onToggle={() => handleToggle("location")}
+          closeDropdown={() => setOpenDropdown(null)}
         />
       </div>
 
       <div className="chart-section">
         <div className="chart-header">
           <div className="chart-icon">
-            <img src="/temp.svg" alt="Temprature" />
+            <img src={chartIcon} alt={chartTitle} />
           </div>
-          <h2>Temprature</h2>
+          <h2>{chartTitle}</h2>
           <ParameterSelector
             selectedParameters={selectedParameters}
             onParameterChange={onParameterChange}
             multiple={true}
+            isOpen={openDropdown === "parameter"}
+            onToggle={() => handleToggle("parameter")}
+            closeDropdown={() => setOpenDropdown(null)}
           />
         </div>
-        
+
         <DetailChart
           weatherData={weatherData}
           selectedParameters={selectedParameters}

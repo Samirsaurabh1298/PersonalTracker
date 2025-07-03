@@ -10,7 +10,6 @@ import './styles/weather.css';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 
-
 export default function App() {
   const [currentPage, setCurrentPage] = useState<PageType>('overview');
   const [selectedLocations, setSelectedLocations] = useState<string[]>(['Australia']);
@@ -25,6 +24,7 @@ export default function App() {
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
   const [loading, setLoading] = useState(false);
   const [selectedParameters, setSelectedParameters] = useState<string[]>(['temperature_2m']);
+  const [activeChart, setActiveChart] = useState<'temperature' | 'precipitation' | 'wind'>('temperature');
 
   const handleFetchWeatherData = async (isHourly = false) => {
     setLoading(true);
@@ -55,7 +55,8 @@ export default function App() {
     setSelectedParameters(parameters);
   };
 
-  const handleNavigateToDetails = () => {
+  const handleNavigateToDetails = (chart: 'temperature' | 'precipitation' | 'wind') => {
+    setActiveChart(chart);
     setCurrentPage('details');
   };
 
@@ -80,7 +81,7 @@ export default function App() {
       <Sidebar />
       <div className="main-content">
         <Header title="Weather Dashboard" />
-        
+
         {currentPage === 'overview' ? (
           <OverviewPage
             weatherData={weatherData}
@@ -104,6 +105,7 @@ export default function App() {
             onLocationChange={handleLocationChange}
             onParameterChange={handleParameterChange}
             onNavigateBack={handleNavigateBack}
+            chartType={activeChart}
           />
         )}
       </div>
